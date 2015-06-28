@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Project FreeAX25
+    Copyright (C) 2015  tania@df9ry.de
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as
+    published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<Configuration name="Default"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://df9ry.ampr.org/FreeAX25/Config FreeAX25.xsd" 
+	xmlns="http://df9ry.ampr.org/FreeAX25/Config">
+	
+	<Settings>
+		<!-- Timer tick in ms -->
+		<Setting name="tick">20</Setting>
+		<!-- Log level -->
+		<Setting name="loglevel">DEBUG</Setting>
+	</Settings>
+	
+	<Plugins>
+		<Plugin name="Zero" file="./FreeAX25_Zero.so">
+			<Instances>
+				<Instance name="Null">
+					<ServerEndPoint name="NullEP" url="svc:Null"/>
+					<Settings>
+						<Setting name="echo">false</Setting>
+					</Settings>
+				</Instance>
+				<Instance name="Echo">
+					<ServerEndPoint name="EchoEP" url="svc:Echo"/>
+					<Settings>
+						<Setting name="echo">true</Setting>
+					</Settings>
+				</Instance>
+			</Instances>
+		</Plugin>
+		
+		<Plugin name="TCPServer" file="./FreeAX25_TCPServer.so">
+			<Instances>
+				<Instance name="Port8001">
+					<ClientEndPoint name="uplink" url="svc:Echo"/>
+					<Settings>
+						<Setting name="port">8001</Setting>
+						<Setting name="backof">5</Setting>
+						<Setting name="bufsize">256</Setting>
+					</Settings>
+				</Instance>
+			</Instances>
+		</Plugin>
+	</Plugins>
+	
+</Configuration>
